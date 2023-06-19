@@ -7,3 +7,6 @@ df_Eugster87 = (CSV.read("data/MatrixBruciteEugster87.csv", DataFrame))
 
 # Convert to Matrix
 Matrix(df_Eugster87[:,2:end])
+
+# Extract labels
+labels = names(df_Eugster87)
