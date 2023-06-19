@@ -1,4 +1,4 @@
-# ReactiveTransport1D
+# Reactive Transport 1D
 
 # Installation
 1. Clone/Download the repository
