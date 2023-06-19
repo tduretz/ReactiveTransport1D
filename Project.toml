@@ -1,0 +1,11 @@
+name = "ReactiveTransport1D"
+uuid = "a1298be1-010d-497f-a0a9-97f07b81af2d"
+authors = ["tduretz <duretz@uni-frankfurt.de>"]
+version = "0.1.0"
+
+[deps]
+GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
