@@ -1,0 +1,38 @@
+* pickup file written by eq3nr.3245R110
+*  supported by eqlib.3245R136
+400 C & 10.0 kbar                                                               
+                                                                                
+Sulfur speciation in equilibrium with:                                          
+                                                                                
+Muscovite, graphite, quartz, chlorite, plagioclase                              
+                                                                                
+Trace amounts of Al                                                             
+                                                                                
+log fO2 at FMQ                                                                  
+                                                                                
+December, 2022 data file                                                        
+                                                                                
+endit.
+    uacion= CL-         
+    tempci=   .40000E+03
+     nxmod=  2
+   species= FERROUS_OXIDE     
+      type=  1              option= -1              xlkmod=   .00000E+00
+   species= H2CO3(AQ)         
+      type=  0              option= -1              xlkmod=   .00000E+00
+     iopg1=  0               iopg2= -1               iopg3=  0
+     iopg4=  0               iopg5=  1               iopg6=  0
+     iopg7=  0               iopg8=  0               iopg9=  0
+    iopg10=  0
+       kct=  4                 ksq=  5                 kmt=  5
+       kxt=  5                kdim=  5                kprs=  0
+   O                   .588074506735819E+02
+   MG                  .165437386371716E+01
+   H                   .114316191755480E+03
+   CL                  .100000000392484E-01
+   electr              .195089933791026E-09
+   H2O                H2O                     .174436091209183E+01
+   MG++               MG++                   -.238703734454999E+01
+   H+                 H+                     -.468231830932407E+01
+   CL-                CL-                    -.201171173427703E+01
+   O2(G)              O2(G)                  -.238000000000000E+02
