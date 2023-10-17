@@ -17,6 +17,26 @@ At present, the project is composed of test for brucite dissolution with compari
 
 The results from this code are in good agreement with both Brucite dissolutions computations from Eugster and Baumgartner 1987 and EQ3 computations at 1 GPa and 400 °C. In both case the main species for Mg is the same and the molalities are within a few percents to the results. It is worth noting that EQ3 uses activity coefficients for aqueous species (hin the test the B-dot formulation was used), while this code assumes activity coefficients are equal to 1. This will be changed in the near future.
 
+The code here follows the method described in Eugster and Baumgartner 1987, which solves a set of non linear equations made of the charge balance, the tot chlorine dissolved into the fluid, the dissolution of brucite reaction and the dissociation reactions for all aqueous species.
+For the comparison with EQ3, reactions are written slightly differently to the E&B 1987 paper.
+
+### Reactions:
+1) Brucite dissolution:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Brucite + 2 H<sup>+</sup> = Mg<sup>2+</sup> + H<sub>2</sub>O
+2) MgCl<sup>+</sup> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MgCl<sup>+</sup> = Mg<sup>2+</sup> + Cl<sup>-</sup>
+3) HCl dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HCl = H<sup>+</sup> + Cl<sup>-</sup>
+4) H<sub>2</sub>O dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O = H<sup>+</sup> + OH<sup>-</sup>
+5) Mg(OH)<sub>2</sub> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mg(OH)<sub>2</sub> + 2 H<sup>+</sup> = 2 H<sub>2</sub>O + Mg<sup>2+</sup>
+6) Mg(OH)<sub>2</sub> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mg(OH)<sub>2</sub> + H<sup>+</sup> = H<sub>2</sub>O + Mg<sup>2+</sup>
+
+### Equations:
+Charge balance:&emsp;m<sub>MgCl<sup>+</sup></sub> + m<sub>Mg<sup>2+</sup></sub> - m<sub>Cl<sup>-</sup></sub> + m<sub>H<sup>+</sup></sub> - m<sub>OH<sup>-</sup></sub> + m<sub>MgOH<sup>+</sup></sub> = 0<br/>
+Chlorinity:&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;m<sub>MgCl<sup>+</sup></sub> + m<sub>Cl<sup>-</sup></sub> + m<sub>HCl</sub> = 0.01<br/>
+Br dissolution:
+
 ## How to modify the computation
 
 To test this speciation calculator, you can change the matrix in the data folder and change the log Ks, line 59 (b variable). You can also change the chlorinity (Cl<sup>tot</sup> variable) line 50.
+
+## Authors
+Thibault Duretz
+Guillaume Siron
