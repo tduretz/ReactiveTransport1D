@@ -38,6 +38,45 @@ H<sub>2</sub>O dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
 Mg(OH)<sub>2</sub> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>Mg<sup>2+</sup></sub> - log m<sub>Mg(OH)<sub>2</sub></sub> - 2 log m<sub>H<sup>+</sup></sub> - log K<sub>Mg(OH)<sub>2</sub></sub> = 0<br/>
 Mg(OH)<sup>+</sup> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>Mg<sup>2+</sup></sub> - log m<sub>MgOH<sup>+</sup></sub> + log m<sub>H<sup>+</sup></sub> - log K<sub>MgOH<sup>+</sup></sub> = 0<br/>
 
+### Mathematical formulation
+
+The set of 8 non linear equations above can be rewritten in the form of the Jacobian matrix where:
+
+$$
+\begin{align}
+\begin{bmatrix}
+      0 & 1 & 2 & -1 & 1 & -1 & 0 & 1 \\
+      1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 & -2 & 0 & 0 & 0 \\
+      0 & -1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+      -1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 & -2 & 0 & -1 & 0 \\
+      0 & 0 & 1 & 0 & -1 & 0 & 0 & -1
+\end{bmatrix} \cdot
+\begin{bmatrix}
+       m_{HCl}\\
+       m_{MgCl^+}\\
+       m_{Mg^{2+}}\\
+       m_{Cl^-}\\
+       m_{H^+}\\
+       m_{OH^-}\\
+       m_{Mg(OH)2}\\
+       m_{MgOH^+}
+\end{bmatrix} =
+\begin{bmatrix}
+       0\\
+       0.01\\
+       6.8466\\
+       -1.0841\\
+       -0.6078\\
+       -8.1764\\
+       6.6296\\
+       4.9398
+\end{bmatrix}
+\end{align}
+$$
+
 ## How to modify the computation
 
 To test this speciation calculator, you can change the matrix in the data folder and change the log Ks, line 59 (b variable). You can also change the chlorinity (Cl<sup>tot</sup> variable) line 50.
