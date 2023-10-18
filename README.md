@@ -26,12 +26,17 @@ For the comparison with EQ3, reactions are written slightly differently to the E
 3) HCl dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HCl = H<sup>+</sup> + Cl<sup>-</sup>
 4) H<sub>2</sub>O dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O = H<sup>+</sup> + OH<sup>-</sup>
 5) Mg(OH)<sub>2</sub> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mg(OH)<sub>2</sub> + 2 H<sup>+</sup> = 2 H<sub>2</sub>O + Mg<sup>2+</sup>
-6) Mg(OH)<sub>2</sub> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mg(OH)<sub>2</sub> + H<sup>+</sup> = H<sub>2</sub>O + Mg<sup>2+</sup>
+6) Mg(OH)<sup>+</sup> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mg(OH)<sup>+</sup> + H<sup>+</sup> = H<sub>2</sub>O + Mg<sup>2+</sup>
 
 ### Equations:
-Charge balance:&emsp;m<sub>MgCl<sup>+</sup></sub> + m<sub>Mg<sup>2+</sup></sub> - m<sub>Cl<sup>-</sup></sub> + m<sub>H<sup>+</sup></sub> - m<sub>OH<sup>-</sup></sub> + m<sub>MgOH<sup>+</sup></sub> = 0<br/>
-Chlorinity:&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;m<sub>MgCl<sup>+</sup></sub> + m<sub>Cl<sup>-</sup></sub> + m<sub>HCl</sub> = 0.01<br/>
-Br dissolution:
+Charge balance:&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m<sub>MgCl<sup>+</sup></sub> + 2 m<sub>Mg<sup>2+</sup></sub> - m<sub>Cl<sup>-</sup></sub> + m<sub>H<sup>+</sup></sub> - m<sub>OH<sup>-</sup></sub> + m<sub>MgOH<sup>+</sup></sub> = 0<br/>
+Chlorinity:&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m<sub>MgCl<sup>+</sup></sub> + m<sub>Cl<sup>-</sup></sub> + m<sub>HCl</sub> = 0.01<br/>
+Br dissolution:&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>Mg<sup>2+</sup></sub> - 2 log m<sub>H<sup>+</sup></sub> - log K<sub>Br</sub> = 0<br/>
+MgCl<sup>+</sup> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>Mg<sup>2+</sup></sub> + log m<sub>Cl<sup>-</sup></sub> - log m<sub>MgCl<sup>+</sup></sub> - log K<sub>MgCl<sup>+</sup></sub> = 0<br/>
+HCl dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>H<sup>+</sup></sub> + log m<sub>Cl<sup>-</sup></sub> - log m<sub>HCl</sub> - log K<sub>HCl</sub> = 0<br/>
+H<sub>2</sub>O dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>H<sup>+</sup></sub> + log m<sub>OH<sup>-</sup></sub> - log K<sub>w</sub> = 0<br/>
+Mg(OH)<sub>2</sub> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>Mg<sup>2+</sup></sub> - log m<sub>Mg(OH)<sub>2</sub></sub> - 2 log m<sub>H<sup>+</sup></sub> - log K<sub>Mg(OH)<sub>2</sub></sub> = 0<br/>
+Mg(OH)<sup>+</sup> dissociation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log m<sub>Mg<sup>2+</sup></sub> - log m<sub>MgOH<sup>+</sup></sub> + log m<sub>H<sup>+</sup></sub> - log K<sub>MgOH<sup>+</sup></sub> = 0<br/>
 
 ## How to modify the computation
 
