@@ -61,14 +61,15 @@ function Speciation()
     species      = names(df)[2:end] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
-    Aγ    = 0.6710
-    Bγ    = 0.3595
+    Aγ    = 0.7879
+    Bγ    = 0.3711
     bdot  = [Aγ, Bγ]                                        # B-dot coefficients Aγ and Bγ at 400 C and 5 kbar
     coeff = [-1.0312, 0.0012806, 255.9, 0.445, -0.001606]   # Coefficients for neutral species C, F, G, E and H
     å     = [3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7]        # Size of fluid species (including hydration shell)
 
     # Parameters
     Clᵗᵒᵗ = 0.01     # Total chlorinity
+    T     = 673      # Temperature in Kelvin
 
     # Newton-Raphson solver
     niter = 100     # Max number of iterations
