@@ -120,7 +120,7 @@ function Speciation()
     end
 
     # Figure 
-    f = Figure(resolution=(1200, 600), fontsize=25, aspect=2.0)
+    f = Figure(size=(1200, 600), fontsize=25, aspect=2.0)
     ax1 = Axis(f[1, 1], title=L"$$Molalities", xlabel=L"$$Species", ylabel=L"$$Molality [-]", xgridvisible=false, ygridvisible=false)
     ax1.xticks = (collect(1:length(species)), species)
     scatter!(ax1, 1:length(m), m, label="a")
