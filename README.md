@@ -15,7 +15,7 @@ At present, the project is composed of test for brucite dissolution with compari
 
 ## Test against previous Brucite dissolution results
 
-The results from this code are in good agreement with both Brucite dissolutions computations from Eugster and Baumgartner 1987 and EQ3 computations at 1 GPa and 400 °C. In both case the main species for Mg is the same and the molalities are within a few percents to the results. It is worth noting that EQ3 uses activity coefficients for aqueous species (hin the test the B-dot formulation was used), while this code assumes activity coefficients are equal to 1. This will be changed in the near future.
+The results from this code are in good agreement with both Brucite dissolutions computations from Eugster and Baumgartner 1987 and EQ3 computations at 1 GPa and 400 °C. In both case the main species for Mg is the same and the molalities are within a few percents to the results.
 
 The code here follows the method described in Eugster and Baumgartner 1987, which solves a set of non linear equations made of the charge balance, the tot chlorine dissolved into the fluid, the dissolution of brucite reaction and the dissociation reactions for all aqueous species.
 For the comparison with EQ3, reactions are written slightly differently to the E&B 1987 paper.
