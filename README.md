@@ -79,7 +79,7 @@ $$
 
 ## How to modify the computation
 
-To test this speciation calculator, you can change the matrix in the data folder and change the log Ks, line 59 (b variable). You can also change the chlorinity (Cl<sup>tot</sup> variable) line 50.
+To test this speciation calculator, you can change the matrix in the data folder and change the log Ks, line 98 (b variable). You can also change the chlorinity (Cl<sup>tot</sup> variable) line 85.
 
 ## Authors
 Thibault Duretz,
