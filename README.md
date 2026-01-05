@@ -77,6 +77,17 @@ $$
 \end{align}
 $$
 
+## BackCalc algorithm
+Another way to compute the speciation of a fluid was presented in Galvez et al. (2015). The basic idea involve switching the dissolution reactions that conencts the fluid to the rock with a hydrolysis reaction with the general form:
+$$
+M_xO_y + 2yH^+ = xM^{2y/x+} + yH_2O
+$$
+With M being a cation. This allow to link the activity of a basis species (a the activity of H+) with the chemical potential of the related oxide and the Gibbs free energy of this same basis species using the following general equation:
+$$
+log(a(M^{2y/x+}) - a(H^+)^{2y/x} = 1/RT(µ(M_xO_y) - y·µ(H_2O)/x - G^0(M^{2y/x+}))
+$$
+
+
 ## How to modify the computation
 
 To test this speciation calculator, you can change the matrix in the data folder and change the log Ks, line 98 (b variable). You can also change the chlorinity (Cl<sup>tot</sup> variable) line 85.
