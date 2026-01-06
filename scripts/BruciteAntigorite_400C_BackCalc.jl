@@ -172,7 +172,7 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
 
 end
 
-# Initialization fo the MAGEMin conditions
+# Initialization for the MAGEMin conditions
 P = 5.0
 T_calc = 300.0
 data = Initialize_MAGEMin("ume", verbose=false);
