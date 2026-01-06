@@ -81,7 +81,6 @@ function Speciation(logaoxides)
     Bᵧ = 0.3711
     bdot = [Aᵧ, Bᵧ]                                         # B-dot coefficients Aᵧ and Bᵧ at 400 C and 5 kbar
     coeff = [-1.0312, 0.0012806, 255.9, 0.445, -0.001606]   # Coefficients for neutral species C, F, G, E and H
-    å = 3.7 * ones(length(b))                               # Size of fluid species (including hydration shell)
 
     # Parameters
     Clᵗᵒᵗ = 0.1                                    # Total chlorinity
@@ -101,6 +100,7 @@ function Speciation(logaoxides)
     b[3] = logaoxides[1]
     b[4] = logaoxides[2]
     coeffH2O = collect(df[1:end, end-1])
+    å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
     m = 0.1 * ones(length(b))                     # Initial condition
