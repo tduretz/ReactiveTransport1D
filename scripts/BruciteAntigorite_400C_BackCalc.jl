@@ -98,8 +98,8 @@ function Speciation(logaoxides)
     D = Float64.(Matrix(df[:, 2:end-2]))           # Read coefficients and convert to Matrix
     z = collect(df[1, 2:end-2])                    # Charges for the fluid species
     b = collect(df[1:end, end])                    # Get the Cltot and log K for each reaction/law of mass action
-    # b[3] = logaoxides[1]
-    # b[4] = logaoxides[2]
+    b[3] = logaoxides[1]
+    b[4] = logaoxides[2]
     coeffH2O = collect(df[1:end, end-1])
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
@@ -182,7 +182,7 @@ sys_in = "wt"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
-@printf("Chemical potentials (kJ) of SiO2 = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO2, µ_MgO, µ_H₂O)
+@printf("Chemical potentials (kJ) of SiO2 = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_MgO, µ_H₂O)
 
 # Compute the log(aM/aH+)
 R = 8.314               # Gas constant (J/mol/K) 
@@ -193,7 +193,6 @@ logSiO₂H = (1000*µ_SiO₂ - G_SiO₂⁰) / (2.303 * R * T_calc)
 @printf("Log(aSiO2) = %2.10e and log(aMg2+/aH+) = %2.10e\n", logSiO₂H, logMgH)
 logaoxides = [logMgH;logSiO₂H]
 
-
-# Computute the speciation using the log(aMg2+/aH+) from MAGEMin
-# Speciation(logaoxides)
+# Compute the speciation using the log(aMg2+/aH+) from MAGEMin
+Speciation(logaoxides)
 
