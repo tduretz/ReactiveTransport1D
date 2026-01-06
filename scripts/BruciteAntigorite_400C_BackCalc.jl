@@ -73,7 +73,7 @@ end
 function Speciation(logaoxides)
 
     # Read data into a dataframe
-    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_wo_Mg(OH)2.csv", DataFrame))
+    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq).csv", DataFrame))
     species = names(df)[2:end-2] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
@@ -167,22 +167,30 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     for n in 1:length(out.sol_name)
         @printf("%s is stable with %2.10e vol\n", out.sol_name[n],out.ph_frac_vol[n])
     end
+    for m in 1:length(Xoxides)
+        @printf("The chemical potential of %s = %2.10e vol\n", Xoxides[m],out.Gamma[m])
+    end
 
-    return out.Gamma[1], out.Gamma[5], out.Gamma[7]
+    return out.Gamma[1], out.Gamma[3], out.Gamma[5]
 
 end
 
 # Initialization for the MAGEMin conditions
 P = 5.0
-T_calc = 300.0
+T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-Xoxides = ["SiO2"; "Na2O"; "CaO"; "FeO"; "MgO"; "Al2O3"; "H2O"; "O"];  # System of component for Ren et al. (2026)
-X_comp = [34.146613; 0.0; 0.0; 6.415533; 33.41302; 1.808672; 23.883372; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+Xoxides = ["SiO2"; "FeO"; "MgO"; "Al2O3"; "H2O"; "O"];  # System of component for Ren et al. (2026)
+X_comp = [34.146613; 6.415533; 33.41302; 1.808672; 23.883372; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
 sys_in = "wt"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
 @printf("Chemical potentials (kJ) of SiO2 = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_MgO, µ_H₂O)
+
+# # Chemical potentials from PerpleX
+# µ_SiO₂ = -901.514
+# µ_MgO = -595.872
+# µ_H₂O = -265.513
 
 # Compute the log(aM/aH+)
 R = 8.314               # Gas constant (J/mol/K) 
