@@ -73,15 +73,15 @@ end
 function Speciation(logaoxides)
 
     # Read data into a dataframe
-    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq).csv", DataFrame))
+    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_wo_Mg(OH)2.csv", DataFrame))
     species = names(df)[2:end-2] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
     Aᵧ = 0.7879
     Bᵧ = 0.3711
-    bdot = [Aᵧ, Bᵧ]  # B-dot coefficients Aᵧ and Bᵧ at 400 C and 5 kbar
+    bdot = [Aᵧ, Bᵧ]                                         # B-dot coefficients Aᵧ and Bᵧ at 400 C and 5 kbar
     coeff = [-1.0312, 0.0012806, 255.9, 0.445, -0.001606]   # Coefficients for neutral species C, F, G, E and H
-    å = [3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7]       # Size of fluid species (including hydration shell)
+    å = 3.7 * ones(length(b))                               # Size of fluid species (including hydration shell)
 
     # Parameters
     Clᵗᵒᵗ = 0.1                                    # Total chlorinity
@@ -103,7 +103,7 @@ function Speciation(logaoxides)
     coeffH2O = collect(df[1:end, end-1])
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
-    m = 0.01 * ones(length(b))                     # Initial condition
+    m = 0.1 * ones(length(b))                     # Initial condition
     logγ = ones(length(b))                         # Initial activity coefficients equal to 1
     f = zero(m)
     Δm = zero(m)
@@ -186,8 +186,8 @@ sys_in = "wt"
 
 # Compute the log(aM/aH+)
 R = 8.314               # Gas constant (J/mol/K) 
-G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T
-G_SiO₂⁰ = -851437.5     # Gibbs free energy (J/mol) of SiO2(aq) at P and T
+G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
+G_SiO₂⁰ = -851437.5     # Gibbs free energy (J/mol) of SiO2(aq) at P and T from PerpleX
 logMgH = (1000*µ_MgO - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * T_calc)
 logSiO₂H = (1000*µ_SiO₂ - G_SiO₂⁰) / (2.303 * R * T_calc)
 @printf("Log(aSiO2) = %2.10e and log(aMg2+/aH+) = %2.10e\n", logSiO₂H, logMgH)
