@@ -104,6 +104,7 @@ function Speciation(logaoxides)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
     m = 0.1 * ones(length(b))                     # Initial condition
+    # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                         # Initial activity coefficients equal to 1
     f = zero(m)
     Δm = zero(m)
@@ -136,6 +137,9 @@ function Speciation(logaoxides)
         α = LineSearch(f, m, logγ, Δm, D, coeffH2O, logaw, b) # Optminise with line search
         m .+= α * Δm
         @printf("it. %03d --- f = %1.4e --- α = %1.2f\n", iter, norm(f), α)
+        for i in 1:n
+            @printf("Molality of %s is %1.4e\n", species[i], m[i])
+        end
 
         # Compute water activity
         logaw = ActivityWater(m, bdot, å_w, I, Ω, T)
@@ -187,17 +191,25 @@ sys_in = "wt"
 µ_SiO₂, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
 @printf("Chemical potentials (kJ) of SiO2 = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_MgO, µ_H₂O)
 
-# # Chemical potentials from PerpleX
+# # Chemical potentials from PerpleX for just 1 mol forsterite + 1.6 mol H2O
 # µ_SiO₂ = -901.514
 # µ_MgO = -595.872
 # µ_H₂O = -265.513
 
+# # # Chemical potentials from PerpleX for the same composition than MAGEMin
+# µ_SiO₂ = -901.939
+# µ_MgO = -596.067
+# µ_H₂O = -250.183
+
 # Compute the log(aM/aH+)
+S0_SiO₂ = 223.96 
+S0_MgO = 135.255
+S0_H₂O = 233.255
 R = 8.314               # Gas constant (J/mol/K) 
 G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
 G_SiO₂⁰ = -851437.5     # Gibbs free energy (J/mol) of SiO2(aq) at P and T from PerpleX
-logMgH = (1000*µ_MgO - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * T_calc)
-logSiO₂H = (1000*µ_SiO₂ - G_SiO₂⁰) / (2.303 * R * T_calc)
+logMgH = (1000*µ_MgO + S0_MgO*298.15 - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
+logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T_calc+273.15))
 @printf("Log(aSiO2) = %2.10e and log(aMg2+/aH+) = %2.10e\n", logSiO₂H, logMgH)
 logaoxides = [logMgH;logSiO₂H]
 
