@@ -191,16 +191,6 @@ sys_in = "wt"
 µ_SiO₂, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
 @printf("Chemical potentials (kJ) of SiO2 = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_MgO, µ_H₂O)
 
-# # Chemical potentials from PerpleX for just 1 mol forsterite + 1.6 mol H2O
-# µ_SiO₂ = -901.514
-# µ_MgO = -595.872
-# µ_H₂O = -265.513
-
-# # # Chemical potentials from PerpleX for the same composition than MAGEMin
-# µ_SiO₂ = -901.939
-# µ_MgO = -596.067
-# µ_H₂O = -250.183
-
 # Compute the log(aM/aH+)
 S0_SiO₂ = 223.96 
 S0_MgO = 135.255
