@@ -70,7 +70,7 @@ end
 # Solve for log(activities)
 
 """ Main function for speciation """
-function Speciation(logaoxides)
+function Speciation(logaoxides, T_calc)
 
     # Read data into a dataframe
     df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_Fe.csv", DataFrame))
@@ -84,7 +84,7 @@ function Speciation(logaoxides)
 
     # Parameters
     Clᵗᵒᵗ = 0.1                                    # Total chlorinity
-    T = 673                                        # Temperature in Kelvin
+    T = T_calc + 273                               # Temperature in Kelvin
     å_w = 4                                        # Hard core diameter for water 4.0 Å
     Ω = 55.55                                      # Water constant (1000 divide by the moelcular weight of water)
 
@@ -197,7 +197,7 @@ S0_SiO₂ = 223.96
 S0_MgO = 135.255
 S0_FeO = 129.855
 S0_H₂O = 233.255
-µ_FeO = -310.579    # FeO chemical potential from PerpleX with HSC convention
+µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
 R = 8.314               # Gas constant (J/mol/K) 
 G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
 G_Fe⁰ = -63615.6        # Gibbs free energy (J/mol) of Fe2+ at P and T from PerpleX
@@ -209,5 +209,5 @@ logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T
 logaoxides = [logMgH; logSiO₂H; logFeH]
 
 # Compute the speciation using the log(aMg2+/aH+) from MAGEMin
-Speciation(logaoxides)
+Speciation(logaoxides, T_calc)
 
