@@ -173,10 +173,10 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
         @printf("%s is stable with %2.10e vol\n", out.sol_name[n],out.ph_frac_vol[n])
     end
     for m in 1:length(Xoxides)
-        @printf("The chemical potential of %s = %2.10e vol\n", Xoxides[m],out.Gamma[m])
+        @printf("The chemical potential of %s = %2.10e (kJ/mol)\n", Xoxides[m],out.Gamma[m])
     end
 
-    return out.Gamma[1], out.Gamma[2], out.Gamma[3], out.Gamma[5]
+    return out.Gamma[1], out.Gamma[2], out.Gamma[3], out.Gamma[4]
 
 end
 
@@ -184,13 +184,16 @@ end
 P = 5.0
 T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-Xoxides = ["SiO2"; "FeO"; "MgO"; "Al2O3"; "H2O"; "O"];  # System of component for Ren et al. (2026)
-X_comp = [34.146613; 6.415533; 33.41302; 1.808672; 23.883372; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
-sys_in = "wt"
+# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"];  # System of component for Ren et al. (2026)
+# X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+# sys_in = "wt"
+Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for Ren et al. (2026)
+X_comp = [21.74; 4.35; 39.13; 34.78];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+sys_in = "mol"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_FeO, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
-@printf("Chemical potentials (kJ) of SiO2 = %2.10e, FeO = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_FeO, µ_MgO, µ_H₂O)
+@printf("Chemical potentials (kJ/mol) of SiO2 = %2.10e, FeO = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_FeO, µ_MgO, µ_H₂O)
 
 # Compute the log(aM/aH+)
 S0_SiO₂ = 223.96 
@@ -198,6 +201,7 @@ S0_MgO = 135.255
 S0_FeO = 129.855
 S0_H₂O = 233.255
 µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
+# µ_FeO = -310.9142683
 R = 8.314               # Gas constant (J/mol/K) 
 G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
 G_Fe⁰ = -63615.6        # Gibbs free energy (J/mol) of Fe2+ at P and T from PerpleX
