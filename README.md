@@ -113,7 +113,8 @@ $$
 
 ## How to modify the computation
 
-To test this speciation calculator, you can change the matrix in the data folder and change the log Ks, line 98 (b variable). You can also change the chlorinity (Cl<sup>tot</sup> variable) line 85.
+To test this speciation calculator, you can change the matrix in the data folder and change the log Ks of the last row if you only want to change the temperature and pressure. You can also change the chlorinity (Cl<sup>tot</sup> variable) line 85.
+If you use the BackCalc script, you need to change the composition of the rock in the section <i>Initialization for the MAGEMin conditions</i> and the temperature (in K) line 
 
 ## Authors
 Thibault Duretz,
