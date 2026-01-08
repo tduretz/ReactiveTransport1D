@@ -90,10 +90,26 @@ With M being a cation. This allow to link the activity of a basis species (a the
 
 $$
 \begin{align}
-log(a(M^{2y/x+})) - 2y/x·log(a(H^+)) = 1/RT(µ(M_xO_y) - y·µ(H_2O)/x - G^0(M^{2y/x+}))
+log(a(M^{2y/x+})) - 2y/x·log(a(H^+)) = \dfrac{1}{RT}(µ(M_xO_y) - y·µ(H_2O)/x - G^0(M^{2y/x+}))
 \end{align}
 $$
 
+Taking the exemple of brucite dissolution above, the equation above replaces reaction (1) and all other reactions/constraints are kept. In this case, the equation takes the form:
+
+
+$$
+\begin{align}
+log(a(Mg^{2+})) - 2·log(a(H^+)) = \dfrac{1}{RT}(µ(MgO) - 2·µ(H_2O) - G^0(Mg^{2+}))
+\end{align}
+$$
+
+In the case of a more complex system, for exemple a antigorite-brucite serpentinite at 400 °C and 5 kbar in the system MgO-SiO<sub>2</sub>-H<sub>2</sub>O-HCl. The additional constrain takes the form:
+
+$$
+\begin{align}
+log(a(SiO_{2}(aq))) = \dfrac{1}{RT}(µ(SiO_{2}) - G^0(SiO_{2}(aq)))
+\end{align}
+$$
 
 ## How to modify the computation
 
