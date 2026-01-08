@@ -104,7 +104,7 @@ function Speciation(logaoxides, T_calc)
     å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
-    m = 0.1 * ones(length(b))                     # Initial condition
+    m = 0.01 * ones(length(b))                     # Initial condition
     # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                         # Initial activity coefficients equal to 1
     f = zero(m)
@@ -184,12 +184,12 @@ end
 P = 5.0
 T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"];  # System of component for Ren et al. (2026)
-# X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
-# sys_in = "wt"
-Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for Ren et al. (2026)
-X_comp = [21.74; 4.35; 39.13; 34.78];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
-sys_in = "mol"
+Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"];  # System of component for Ren et al. (2026)
+X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+sys_in = "wt"
+# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for Ren et al. (2026)
+# X_comp = [21.74; 4.35; 39.13; 34.78];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+# sys_in = "mol"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_FeO, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
@@ -200,7 +200,10 @@ S0_SiO₂ = 223.96
 S0_MgO = 135.255
 S0_FeO = 129.855
 S0_H₂O = 233.255
-µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
+# µ_SiO₂ = -968.919674
+# µ_MgO = -636.3732783
+# µ_H₂O = -335053.9783
+# µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
 # µ_FeO = -310.9142683
 R = 8.314               # Gas constant (J/mol/K) 
 G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
