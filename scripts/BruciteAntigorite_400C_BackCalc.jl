@@ -183,9 +183,11 @@ end
 P = 5.0
 T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-Xoxides = ["SiO2"; "FeO"; "MgO"; "Al2O3"; "H2O"; "O"];  # System of component for Ren et al. (2026)
-X_comp = [34.146613; 6.415533; 33.41302; 1.808672; 23.883372; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
-sys_in = "wt"
+# Xoxides = ["SiO2"; "FeO"; "MgO"; "Al2O3"; "H2O"; "O"];  # System of component for Ren et al. (2026)
+# X_comp = [34.146613; 6.415533; 33.41302; 1.808672; 23.883372; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for Ren et al. (2026)
+X_comp = [1; 0.2; 1.8; 1.6];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+sys_in = "mol"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
