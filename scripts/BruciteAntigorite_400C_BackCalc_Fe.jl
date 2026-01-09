@@ -73,7 +73,7 @@ end
 function Speciation(logaoxides, T_calc)
 
     # Read data into a dataframe
-    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_Fe.csv", DataFrame))
+    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_wo_Mg(OH)2.csv", DataFrame))
     species = names(df)[2:end-2] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
@@ -99,7 +99,7 @@ function Speciation(logaoxides, T_calc)
     b = collect(df[1:end, end])                    # Get the Cltot and log K for each reaction/law of mass action
     b[3] = logaoxides[1]
     b[4] = logaoxides[2]
-    b[5] = logaoxides[3]
+    # b[5] = logaoxides[3]
     coeffH2O = collect(df[1:end, end-1])
     å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
@@ -154,6 +154,7 @@ function Speciation(logaoxides, T_calc)
         @printf("Molality of %s is %1.4e\n", species[i], m[i])
     end
     @printf("pH is %1.4e\n", -log10(m[6]))
+    @printf("Mg dissolved is %1.4e\n", m[2]+m[3]+m[7])
 
     # Figure 
     # f = Figure(size=(1200, 600), fontsize=25, aspect=2.0)
@@ -175,8 +176,8 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     for m in 1:length(Xoxides)
         @printf("The chemical potential of %s = %2.10e (kJ/mol)\n", Xoxides[m],out.Gamma[m])
     end
-    print(out.SS_vec[6].siteFractionsNames)
-    print(out.SS_vec[6].siteFractions)
+    # print(out.SS_vec[6].siteFractionsNames)
+    # print(out.SS_vec[6].siteFractions)
 
     return out.Gamma[1], out.Gamma[2], out.Gamma[3], out.Gamma[4]
 
@@ -186,8 +187,8 @@ end
 P = 5.0
 T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"];  # System of reduced serpentinite of Evans & frost (2021)
-X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
+Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"; "S"];  # System of reduced serpentinite of Evans & frost (2021)
+X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068; 0.272721];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
 sys_in = "wt"
 # Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for simple Olivine + H2O
 # X_comp = [21.74; 4.35; 39.13; 34.78];   # Composition of simple Olivine + H2O in mol%
@@ -202,11 +203,11 @@ S0_SiO₂ = 223.96
 S0_MgO = 135.255
 S0_FeO = 129.855
 S0_H₂O = 233.255
-# µ_SiO₂ = -968.919674
-# µ_MgO = -636.3732783
-# µ_H₂O = -335053.9783
+# µ_SiO₂ = -968.919674    # SiO2 chemical potential from PerpleX with HSC convention
+# µ_MgO = -636.3732783    # MgO chemical potential from PerpleX with HSC convention
+# µ_H₂O = -335.0539783    # H2O chemical potential from PerpleX with HSC convention
 # µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
-# µ_FeO = -310.9142683
+µ_FeO = -310.9142683    # FeO chemical potential from PerpleX with HSC convention
 R = 8.314               # Gas constant (J/mol/K) 
 G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
 G_Fe⁰ = -63615.6        # Gibbs free energy (J/mol) of Fe2+ at P and T from PerpleX
@@ -218,5 +219,5 @@ logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T
 logaoxides = [logMgH; logSiO₂H; logFeH]
 
 # Compute the speciation using the log(aMg2+/aH+) from MAGEMin
-# Speciation(logaoxides, T_calc)
+Speciation(logaoxides, T_calc)
 
