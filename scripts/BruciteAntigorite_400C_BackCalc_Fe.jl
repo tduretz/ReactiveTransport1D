@@ -175,6 +175,8 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     for m in 1:length(Xoxides)
         @printf("The chemical potential of %s = %2.10e (kJ/mol)\n", Xoxides[m],out.Gamma[m])
     end
+    print(out.SS_vec[6].siteFractionsNames)
+    print(out.SS_vec[6].siteFractions)
 
     return out.Gamma[1], out.Gamma[2], out.Gamma[3], out.Gamma[4]
 
@@ -184,11 +186,11 @@ end
 P = 5.0
 T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"];  # System of component for Ren et al. (2026)
-X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"];  # System of reduced serpentinite of Evans & frost (2021)
+X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
 sys_in = "wt"
-# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for Ren et al. (2026)
-# X_comp = [21.74; 4.35; 39.13; 34.78];   # Composition of hydrated mantle from Ren et al. (2026) in wt.%
+# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for simple Olivine + H2O
+# X_comp = [21.74; 4.35; 39.13; 34.78];   # Composition of simple Olivine + H2O in mol%
 # sys_in = "mol"
 
 # Get the chemical potentials values for each component
@@ -216,5 +218,5 @@ logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T
 logaoxides = [logMgH; logSiO₂H; logFeH]
 
 # Compute the speciation using the log(aMg2+/aH+) from MAGEMin
-Speciation(logaoxides, T_calc)
+# Speciation(logaoxides, T_calc)
 
