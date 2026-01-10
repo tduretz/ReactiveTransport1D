@@ -1,0 +1,42 @@
+* pickup file written by eq3nr.3245R110
+*  supported by eqlib.3245R136
+650 C & 5.0 kbar                                                                
+                                                                                
+Test NaCl fluid in equilibrium with:                                            
+                                                                                
+Muscovite, sillimanite, albite, quartz                                          
+                                                                                
+Trace amounts of Ca, Mg, and Fe                                                 
+                                                                                
+log fO2 at QFM                                                                  
+                                                                                
+                                                                                
+                                                                                
+endit.
+    uacion= CL-         
+    tempci=   .40000E+03
+     nxmod=  3
+   species= AMORPHOUS_SILICA  
+      type=  1              option= -1              xlkmod=   .00000E+00
+   species= SEPIOLITE         
+      type=  1              option= -1              xlkmod=   .00000E+00
+   species= MG(OH)2(AQ)       
+      type=  0              option= -1              xlkmod=   .00000E+00
+     iopg1=  0               iopg2= -1               iopg3=  0
+     iopg4=  0               iopg5=  1               iopg6=  0
+     iopg7=  0               iopg8=  0               iopg9=  0
+    iopg10=  0
+       kct=  5                 ksq=  6                 kmt=  6
+       kxt=  6                kdim=  6                kprs=  0
+   O                   .555128227265969E+02
+   MG                  .517262853714874E-01
+   SI                  .155255808750506E-03
+   H                   .111021615633502E+03
+   CL                  .100000009250979E+00
+   electr              .102538930679685E-07
+   H2O                H2O                     .174436091209183E+01
+   MG++               MG++                   -.149502077132646E+01
+   H4SIO4(AQ)         H4SIO4(AQ)             -.381015825050597E+01
+   H+                 H+                     -.428542473492135E+01
+   CL-                CL-                    -.107716699769510E+01
+   O2(G)              O2(G)                  -.234000000000000E+02
