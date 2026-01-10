@@ -188,7 +188,7 @@ end
 
 # Initialization for the MAGEMin conditions
 P = 5.0
-T_calc = 500.0
+T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
 # Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"; "S"];  # System of reduced serpentinite of Evans & frost (2021)
 # X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068; 0.272721];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
@@ -210,8 +210,8 @@ S0_H₂O = 233.255
 # µ_MgO = -636.3732783    # MgO chemical potential from PerpleX with HSC convention
 # µ_H₂O = -335.0539783    # H2O chemical potential from PerpleX with HSC convention
 # µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
-# µ_FeO = -310.9142683    # FeO chemical potential from PerpleX with HSC convention at 400 °C
-µ_FeO = -331.615        # FeO chemical potential from PerpleX with HSC convention at 500 °C
+µ_FeO = -310.9142683    # FeO chemical potential from PerpleX with HSC convention at 400 °C
+# µ_FeO = -331.615        # FeO chemical potential from PerpleX with HSC convention at 500 °C
 R = 8.314               # Gas constant (J/mol/K) 
 G_Mg⁰ = -417093.5       # Gibbs free energy (J/mol) of Mg2+ at P and T from PerpleX
 G_Fe⁰ = -63615.6        # Gibbs free energy (J/mol) of Fe2+ at P and T from PerpleX
