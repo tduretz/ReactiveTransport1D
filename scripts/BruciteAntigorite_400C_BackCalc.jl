@@ -151,7 +151,10 @@ function Speciation(logaoxides, T_calc, P)
     å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
-    m = 0.001 * ones(length(b))                     # Initial condition
+    m = 0.01 * ones(length(b))                     # Initial condition
+    m[5] = 10^(b[7]/2)
+    m[6] = 10^(b[7]/2)
+    print(m)
     # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                         # Initial activity coefficients equal to 1
     f = zero(m)
