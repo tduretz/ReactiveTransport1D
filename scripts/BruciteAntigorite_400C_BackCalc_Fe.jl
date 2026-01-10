@@ -190,12 +190,12 @@ end
 P = 5.0
 T_calc = 400.0
 data = Initialize_MAGEMin("ume", verbose=false);
-# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"; "S"];  # System of reduced serpentinite of Evans & frost (2021)
-# X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068; 0.272721];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
-# sys_in = "wt"
-Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for simple Olivine + H2O
-X_comp = [22.74; 4.15; 38.33; 34.78];   # Composition of simple Olivine + H2O in mol%
-sys_in = "mol"
+Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"; "S"];  # System of reduced serpentinite of Evans & frost (2021)
+X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068; 0.272721];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
+sys_in = "wt"
+# Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"];  # System of component for simple Olivine + H2O
+# X_comp = [22.74; 4.15; 38.33; 34.78];   # Composition of simple Olivine + H2O in mol%
+# sys_in = "mol"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_FeO, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
