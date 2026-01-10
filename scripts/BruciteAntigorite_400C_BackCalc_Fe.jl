@@ -73,7 +73,7 @@ end
 function Speciation(logaoxides, T_calc)
 
     # Read data into a dataframe
-    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_wo_Mg(OH)2.csv", DataFrame))
+    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MatrixBruciteAntigorite_400C_BackCalc_SiO2(aq)_Fe.csv", DataFrame))
     species = names(df)[2:end-2] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
@@ -89,8 +89,8 @@ function Speciation(logaoxides, T_calc)
     Ω = 55.55                                      # Water constant (1000 divide by the moelcular weight of water)
 
     # Newton-Raphson solver
-    niter = 100                                    # Max number of iterations
-    ϵ = 1e-12                                      # Non-linear tolerance
+    niter = 200                                    # Max number of iterations
+    ϵ = 1e-10                                      # Non-linear tolerance
     iter = 0                                       # Iteration count
 
     # Arrays
@@ -99,12 +99,15 @@ function Speciation(logaoxides, T_calc)
     b = collect(df[1:end, end])                    # Get the Cltot and log K for each reaction/law of mass action
     b[3] = logaoxides[1]
     b[4] = logaoxides[2]
-    # b[5] = logaoxides[3]
+    b[5] = logaoxides[3]
     coeffH2O = collect(df[1:end, end-1])
+    # print(b[8])
     å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
     m = 0.01 * ones(length(b))                     # Initial condition
+    m[6] = 10^(b[8])/2
+    m[7] = 10^(b[8])/2
     # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                         # Initial activity coefficients equal to 1
     f = zero(m)
