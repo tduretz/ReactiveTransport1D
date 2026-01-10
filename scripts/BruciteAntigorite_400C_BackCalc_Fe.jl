@@ -89,7 +89,7 @@ function Speciation(logaoxides, T_calc)
     Ω = 55.55                                      # Water constant (1000 divide by the moelcular weight of water)
 
     # Newton-Raphson solver
-    niter = 200                                    # Max number of iterations
+    niter = 100                                    # Max number of iterations
     ϵ = 1e-10                                      # Non-linear tolerance
     iter = 0                                       # Iteration count
 
@@ -106,8 +106,8 @@ function Speciation(logaoxides, T_calc)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
     m = 0.01 * ones(length(b))                     # Initial condition
-    m[6] = 10^(b[8])/2
-    m[7] = 10^(b[8])/2
+    m[6] = 10^(b[8]/2)
+    m[7] = 10^(b[8]/2)
     # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                         # Initial activity coefficients equal to 1
     f = zero(m)
