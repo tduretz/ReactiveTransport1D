@@ -221,10 +221,10 @@ end
 function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     out = single_point_minimization(P, T_calc, data, X=X, Xoxides=Xoxides, sys_in=sys_in)
     for n in 1:length(out.sol_name)
-        @printf("%s is stable with %2.10e vol\n", out.sol_name[n],out.ph_frac_vol[n])
+        @printf("%s is stable with %2.2e vol\n", out.sol_name[n],out.ph_frac_vol[n])
     end
     for m in 1:length(Xoxides)
-        @printf("The chemical potential of %s = %2.10e vol\n", Xoxides[m],out.Gamma[m])
+        @printf("The chemical potential of %s = %2.5e (kJ/mol)\n", Xoxides[m],out.Gamma[m])
     end
 
     return out.Gamma[1], out.Gamma[3], out.Gamma[5]
@@ -244,7 +244,7 @@ sys_in = "wt"
 
 # Get the chemical potentials values for each component
 µ_SiO₂, µ_MgO, µ_H₂O = GetChemicalPotentials(X_comp, Xoxides, data, T_calc, P, sys_in)
-@printf("Chemical potentials (kJ) of SiO2 = %2.10e, MgO = %2.10e and of H2O = %2.10e\n", µ_SiO₂, µ_MgO, µ_H₂O)
+@printf("Chemical potentials (kJ) of SiO2 = %2.5e, MgO = %2.5e and of H2O = %2.5e\n", µ_SiO₂, µ_MgO, µ_H₂O)
 
 # Thermodynamic properties
 # Entropies needed to convert HSC convention Gibbs free energies/chemical potentials to SUPCRT convention
@@ -264,12 +264,12 @@ G0_Mg      = collect(G0_Mg_lt[:,2])                                    # Gibbs f
 G0_SiO2    = collect(G0_SiO2_lt[:,2])                                  # Gibbs free energies for SiO2(aq) at different pressures (1 to 25 kbar)
 G_Mg⁰      = Itp1D_rev_scalar1(P_var, G0_Mg, 1000*P)      # G0 for Mg2+ at the pressure of interest
 G_SiO₂⁰    = Itp1D_rev_scalar1(P_var, G0_SiO2, 1000*P)    # G0 for SiO2(aq) at the pressure of interest
-@printf("Gibbs free energy of Mg2+ = %2.10e and SiO2(aq) = %2.10e\n", G_Mg⁰, G_SiO₂⁰)
+@printf("Gibbs free energy of Mg2+ = %2.5e and SiO2(aq) = %2.5e\n", G_Mg⁰, G_SiO₂⁰)
 
 # Compute the log(aM/aH+)
 logMgH     = (1000*µ_MgO + S0_MgO*298.15 - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
 logSiO₂H   = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T_calc+273.15))
-@printf("Log(aSiO2) = %2.10e and log(aMg2+/aH+) = %2.10e\n", logSiO₂H, logMgH)
+@printf("Log(aSiO2) = %2.5e and log(aMg2+/aH+) = %2.5e\n", logSiO₂H, logMgH)
 logaoxides = [logMgH;logSiO₂H]
 
 # Compute the speciation using the log(aMg2+/aH+) from MAGEMin
