@@ -262,9 +262,6 @@ G0_SiO2_lt = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTr
 P_var      = collect(G0_Mg_lt[:,1])                                    # P values for lookup tables of Gibbs free energies for Mg2+ and SiO2(aq)
 G0_Mg      = collect(G0_Mg_lt[:,2])                                    # Gibbs free energies for Mg2+ at different pressures (1 to 25 kbar)
 G0_SiO2    = collect(G0_SiO2_lt[:,2])                                  # Gibbs free energies for SiO2(aq) at different pressures (1 to 25 kbar)
-ΔP_G0      = G0_Mg[2] - G0_Mg[1]
-# print(G0_Mg)
-# Itp1D_rev_scalar1(ρT_lt, Pf_lt, ρT[ip])
 G_Mg⁰      = Itp1D_rev_scalar1(P_var, G0_Mg, 1000*P)      # G0 for Mg2+ at the pressure of interest
 G_SiO₂⁰    = Itp1D_rev_scalar1(P_var, G0_SiO2, 1000*P)    # G0 for SiO2(aq) at the pressure of interest
 @printf("Gibbs free energy of Mg2+ = %2.10e and SiO2(aq) = %2.10e\n", G_Mg⁰, G_SiO₂⁰)
