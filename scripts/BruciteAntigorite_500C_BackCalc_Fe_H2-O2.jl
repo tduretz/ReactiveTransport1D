@@ -6,6 +6,18 @@ Makie.update_theme!(fonts=(regular=texfont(), bold=texfont(:bold), italic=texfon
 # Comparison with fluid speciation from EQ3 using the DEW thermodynamic database
 # Jacobian constructed with automatic differentiation
 
+@views function Itp1D_rev_scalar1(xlt, varlt, xdata)
+    xinf_id = sum(xlt .- xdata .< 0)
+    if xinf_id < 1
+        xinf_id = 1
+    end
+    if xinf_id > length(xlt) - 1
+        xinf_id = length(xlt) - 1
+    end
+    xinf_dist = (xlt[xinf_id+1] - xdata) / (xlt[xinf_id+1] - xlt[xinf_id])
+    return xinf_dist * varlt[xinf_id] + (1.0 - xinf_dist) * varlt[xinf_id+1]
+end
+
 """Compute activity coefficient for fluid species """
 function ActivityCoeff(z, bdot, coeff, å, I, T)
     logγ = ones(length(z))
@@ -254,7 +266,7 @@ G0_O2      = collect(G0_O2_lt[:,2])                          # Gibbs free energi
 G_Mg⁰      = Itp1D_rev_scalar1(P_var, G0_Mg, 1000*P)         # G0 for Mg2+ at the pressure of interest
 G_SiO₂⁰    = Itp1D_rev_scalar1(P_var, G0_SiO2, 1000*P)       # G0 for SiO2(aq) at the pressure of interest
 G_Fe⁰      = Itp1D_rev_scalar1(P_var, G0_Fe, 1000*P)         # G0 for Mg2+ at the pressure of interest
-G_O2⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for Mg2+ at the pressure of interest
+G_O₂⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for Mg2+ at the pressure of interest
 @printf("Gibbs free energy of Mg2+ = %2.5e, SiO2(aq) = %2.5e, Fe2+ = %2.5e and O2(g) = %2.5e\n", G_Mg⁰, G_SiO₂⁰, G_Mg⁰, G_O2⁰)
 
 # µ_SiO₂ = -968.919674    # SiO2 chemical potential from PerpleX with HSC convention
