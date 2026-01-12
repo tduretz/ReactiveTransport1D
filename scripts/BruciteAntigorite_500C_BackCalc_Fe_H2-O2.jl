@@ -147,6 +147,7 @@ function Speciation(logaoxides, T_calc, P)
     m = 0.01 * ones(length(b))                               # Initial condition
     m[6] = 10^(b[8]/2)                                       # Initial condition for H+ to be half of Ke
     m[7] = 10^(b[8]/2)                                       # Initial condition for OH- to be half of Ke
+    m[14] = 10^(b[6])                                       # Initial condition for OH- to be half of Ke
     # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                                   # Initial activity coefficients equal to 1
     f = zero(m)
