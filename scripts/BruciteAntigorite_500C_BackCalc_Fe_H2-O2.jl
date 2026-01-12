@@ -197,7 +197,10 @@ function Speciation(logaoxides, T_calc, P)
         @printf("Molality of %s is %1.4e\n", species[i], m[i])
     end
     @printf("pH is %1.4e\n", -log10(m[6]))
-    @printf("Mg dissolved is %1.4e\n", m[2]+m[3]+m[8])
+    @printf("Mg dissolved is %1.2e\n", m[2]+m[3]+m[8])
+    @printf("Fe dissolved is %1.2e\n", m[10]+m[11]+m[12])
+    @printf("Si dissolved is %1.2e\n", m[9])
+    @printf("Log fO2 is %1.2f\n", log10(m[14]))
 
     # Figure 
     # f = Figure(size=(1200, 600), fontsize=25, aspect=2.0)
@@ -270,12 +273,13 @@ G_Fe⁰      = Itp1D_rev_scalar1(P_var, G0_Fe, 1000*P)         # G0 for Mg2+ at 
 G_O₂⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for Mg2+ at the pressure of interest
 @printf("Gibbs free energy of Mg2+ = %2.5e, SiO2(aq) = %2.5e, Fe2+ = %2.5e and O2(g) = %2.5e\n", G_Mg⁰, G_SiO₂⁰, G_Mg⁰, G_O2⁰)
 
-# µ_SiO₂ = -968.919674    # SiO2 chemical potential from PerpleX with HSC convention
-# µ_MgO = -636.3732783    # MgO chemical potential from PerpleX with HSC convention
-# µ_H₂O = -335.0539783    # H2O chemical potential from PerpleX with HSC convention
-# µ_FeO = -310.579        # FeO chemical potential from PerpleX with HSC convention
-# µ_FeO = -310.9142683    # FeO chemical potential from PerpleX with HSC convention at 400 °C
-µ_FeO = -331.615        # FeO chemical potential from PerpleX with HSC convention at 500 °C
+# µ_SiO₂ = -968.919674    # SiO2 chemical potential (kJ/mol) from PerpleX with HSC convention
+# µ_MgO = -636.3732783    # MgO chemical potential (kJ/mol) from PerpleX with HSC convention
+# µ_H₂O = -335.0539783    # H2O chemical potential (kJ/mol) from PerpleX with HSC convention
+# µ_FeO = -310.579        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention
+# µ_FeO = -310.9142683    # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 400 °C
+µ_FeO = -331.615        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 500 °C
+µ_O   = -272.949        # O chemical potential (kJ/mol) from PerpleX with HSC convention at 500 °C
 logMgH = (1000*µ_MgO + S0_MgO*298.15 - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
 logFeH = (1000*µ_FeO + S0_FeO*298.15 - 1000*µ_H₂O - G_Fe⁰) / (2.303 * R * (T_calc+273.15))
 logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T_calc+273.15))
