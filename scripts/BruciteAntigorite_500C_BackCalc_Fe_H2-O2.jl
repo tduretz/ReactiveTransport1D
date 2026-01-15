@@ -222,8 +222,12 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     for n in 1:length(out.ph)
         @printf("%s is stable with %1.3f vol\n", out.ph[n],out.ph_frac_vol[n])
     end
-    for j in 1:length(out.sol_name)
+    for j in 1:length(out.sol_name)-1
         @printf("%s is stable with %1.3f vol\n", out.sol_name[j],out.ph_frac_vol[j])
+        print(out.SS_vec[j].emNames)
+        @printf(" \n")
+        print(out.SS_vec[j].emFrac)
+        @printf(" \n")
         # @print(out.SS_vec[j].siteFractionsNames)
         # @print("The site fractions proportions are %s is stable with %2.2e\n", out.SS_vec[j].siteFractions)
     end
@@ -309,5 +313,5 @@ logO₂ = (2*µ_O - G_O₂⁰) / (2.303 * R * (T_calc+273.15))
 logaoxides = [logMgH; logSiO₂H; logFeH; logO₂]
 
 # Compute the speciation using the log(aMg2+/aH+) from MAGEMin
-Speciation(logaoxides, T_calc, P)
+# Speciation(logaoxides, T_calc, P)
 
