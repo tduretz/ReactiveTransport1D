@@ -287,11 +287,11 @@ G_O₂⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for Mg2+ a
 # µ_FeO = -310.579        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention
 # µ_FeO = -310.9142683    # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 400 °C
 # µ_FeO = -292.899 - S0_FeO*298.15        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 500 °C
-µ_SiO₂ = -896345    # SiO2 chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
-µ_MgO = -609284    # MgO chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
-µ_H₂O = -262845    # H2O chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
-µ_FeO = -292899        # FeO chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
-µ_O   = -257654        # O chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_SiO₂  = -896345        # SiO2 chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_MgO   = -609284        # MgO chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_H₂O   = -262845        # H2O chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_FeO   = -292899        # FeO chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_O     = -257654        # O chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
 
 # # With HSC convention and chemical potentials from MAGEMin
 # logMgH = (1000*µ_MgO + S0_MgO*298.15 - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
