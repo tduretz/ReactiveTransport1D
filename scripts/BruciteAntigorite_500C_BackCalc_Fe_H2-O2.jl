@@ -145,9 +145,9 @@ function Speciation(logaoxides, T_calc, P)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
     m = 0.01 * ones(length(b))                               # Initial condition
-    m[6] = 10^(b[8]/2)                                       # Initial condition for H+ to be half of Ke
-    m[7] = 10^(b[8]/2)                                       # Initial condition for OH- to be half of Ke
-    m[14] = 10^(b[6])                                       # Initial condition for OH- to be half of Ke
+    m[6] = 10^(b[9]/2)                                       # Initial condition for H+ to be half of Ke
+    m[7] = 10^(b[9]/2)                                       # Initial condition for OH- to be half of Ke
+    m[14] = 10^(b[6])                                       # Initial condition for O2 to be 10^(log fO2)
     # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
     logγ = ones(length(b))                                   # Initial activity coefficients equal to 1
     f = zero(m)
@@ -155,6 +155,9 @@ function Speciation(logaoxides, T_calc, P)
     J = zeros(n, n)
     e = zeros(niter)
     logaw = 0                                                # Initial log of water activity equal to 0 (activity of water equal to 1)
+    for i in 1:n
+        @printf("Initial conditions for molality of %s is %1.4e\n", species[i], m[i])
+    end
 
     for _ = 1:niter
 
@@ -216,8 +219,13 @@ end
 
 function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     out = single_point_minimization(P, T_calc, data, X=X, Xoxides=Xoxides, sys_in=sys_in)
-    for n in 1:length(out.sol_name)
-        @printf("%s is stable with %2.2e vol\n", out.sol_name[n],out.ph_frac_vol[n])
+    for n in 1:length(out.ph)
+        @printf("%s is stable with %1.3f vol\n", out.ph[n],out.ph_frac_vol[n])
+    end
+    for j in 1:length(out.sol_name)
+        @printf("%s is stable with %1.3f vol\n", out.sol_name[j],out.ph_frac_vol[j])
+        # @print(out.SS_vec[j].siteFractionsNames)
+        # @print("The site fractions proportions are %s is stable with %2.2e\n", out.SS_vec[j].siteFractions)
     end
     for m in 1:length(Xoxides)
         @printf("The chemical potential of %s = %2.5e (kJ/mol)\n", Xoxides[m],out.Gamma[m])
@@ -231,7 +239,7 @@ end
 
 # Initialization for the MAGEMin conditions
 P = 5.0
-T_calc = 400.0
+T_calc = 500.0
 data = Initialize_MAGEMin("ume", verbose=false);
 Xoxides = ["SiO2"; "FeO"; "MgO"; "H2O"; "Al2O3"; "O"; "S"];  # System of reduced serpentinite of Evans & frost (2021)
 X_comp = [34.146613; 6.415533; 33.41302; 23.883372; 1.808672; 0.060068; 0.272721];   # Composition of reduced serpentinite of Evans & frost (2021) in wt.%
@@ -271,19 +279,32 @@ G_Mg⁰      = Itp1D_rev_scalar1(P_var, G0_Mg, 1000*P)         # G0 for Mg2+ at 
 G_SiO₂⁰    = Itp1D_rev_scalar1(P_var, G0_SiO2, 1000*P)       # G0 for SiO2(aq) at the pressure of interest
 G_Fe⁰      = Itp1D_rev_scalar1(P_var, G0_Fe, 1000*P)         # G0 for Mg2+ at the pressure of interest
 G_O₂⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for Mg2+ at the pressure of interest
-@printf("Gibbs free energy of Mg2+ = %2.5e, SiO2(aq) = %2.5e, Fe2+ = %2.5e and O2(g) = %2.5e\n", G_Mg⁰, G_SiO₂⁰, G_Mg⁰, G_O2⁰)
+@printf("Gibbs free energy of Mg2+ = %2.5e, SiO2(aq) = %2.5e, Fe2+ = %2.5e and O2(g) = %2.5e\n", G_Mg⁰, G_SiO₂⁰, G_Mg⁰, G_O₂⁰)
 
 # µ_SiO₂ = -968.919674    # SiO2 chemical potential (kJ/mol) from PerpleX with HSC convention
 # µ_MgO = -636.3732783    # MgO chemical potential (kJ/mol) from PerpleX with HSC convention
 # µ_H₂O = -335.0539783    # H2O chemical potential (kJ/mol) from PerpleX with HSC convention
 # µ_FeO = -310.579        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention
 # µ_FeO = -310.9142683    # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 400 °C
-µ_FeO = -331.615        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 500 °C
-µ_O   = -272.949        # O chemical potential (kJ/mol) from PerpleX with HSC convention at 500 °C
-logMgH = (1000*µ_MgO + S0_MgO*298.15 - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
-logFeH = (1000*µ_FeO + S0_FeO*298.15 - 1000*µ_H₂O - G_Fe⁰) / (2.303 * R * (T_calc+273.15))
-logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T_calc+273.15))
-logO₂ = (2*(1000*µ_O + S0_O*298.15) - G_O₂⁰) / (2.303 * R * (T_calc+273.15))
+# µ_FeO = -292.899 - S0_FeO*298.15        # FeO chemical potential (kJ/mol) from PerpleX with HSC convention at 500 °C
+µ_SiO₂ = -896345    # SiO2 chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_MgO = -609284    # MgO chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_H₂O = -262845    # H2O chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_FeO = -292899        # FeO chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+µ_O   = -257654        # O chemical potential (kJ/mol) from PerpleX with SUPCRT convention at 500 °C
+
+# # With HSC convention and chemical potentials from MAGEMin
+# logMgH = (1000*µ_MgO + S0_MgO*298.15 - 1000*µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
+# logFeH = (1000*µ_FeO + S0_FeO*298.15 - 1000*µ_H₂O - G_Fe⁰) / (2.303 * R * (T_calc+273.15))
+# logSiO₂H = (1000*µ_SiO₂ + S0_SiO₂*298.15 - G_SiO₂⁰) / (2.303 * R * (T_calc+273.15))
+# logO₂ = (2*(1000*µ_O + S0_O*298.15) - G_O₂⁰) / (2.303 * R * (T_calc+273.15))
+
+# With SUPCRT convention (from PerpleX)
+logMgH = (µ_MgO - µ_H₂O - G_Mg⁰) / (2.303 * R * (T_calc+273.15))
+logFeH = (µ_FeO - µ_H₂O - G_Fe⁰) / (2.303 * R * (T_calc+273.15))
+logSiO₂H = (µ_SiO₂ - G_SiO₂⁰) / (2.303 * R * (T_calc+273.15))
+logO₂ = (2*µ_O - G_O₂⁰) / (2.303 * R * (T_calc+273.15))
+
 @printf("Log(aSiO2) = %2.5e, Log(fO2) = %2.5e, log(aFe2+/aH+) = %2.5e and log(aMg2+/aH+) = %2.5e\n", logSiO₂H, logO₂, logFeH, logMgH)
 logaoxides = [logMgH; logSiO₂H; logFeH; logO₂]
 
