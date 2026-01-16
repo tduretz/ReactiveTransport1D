@@ -121,7 +121,7 @@ function Speciation(logaoxides, T_calc, P)
     LogK_FeCl2    = collect(FeCl2[:,2])                # Log K values for FeCl+ dissociation
     FeOH          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeOH+_dissociation_500C.csv", DataFrame))
     LogK_FeOH     = collect(FeOH[:,2])                 # Log K values for MgOH dissociation
-    H2_H2O        = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/H2-H2O_dissociation_500C.csv", DataFrame))
+    H2_H2O        = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/H2(aq)-H2O_dissociation_500C.csv", DataFrame))
     LogK_H2_H2O   = collect(H2_H2O[:,2])               # Log K values for MgOH dissociation
     Fo            = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/Fo_dissolution_500C.csv", DataFrame))
     LogK_Fo       = collect(Fo[:,2])                   # Log K values for forsterite dissolution
@@ -151,6 +151,7 @@ function Speciation(logaoxides, T_calc, P)
     b[12] = Itp1D_rev_scalar1(P_logK, LogK_FeCl, 1000*P)       # Interpolate log Ks for MgOH+ dissociation constant
     b[13] = Itp1D_rev_scalar1(P_logK, LogK_FeOH, 1000*P)       # Interpolate log Ks for MgOH+ dissociation constant
     b[14] = Itp1D_rev_scalar1(P_logK, LogK_H2_H2O, 1000*P)     # Interpolate log Ks for MgOH+ dissociation constant
+    print(b[14])
     å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
     # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
     n = length(species)
