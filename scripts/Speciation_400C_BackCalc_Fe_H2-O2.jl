@@ -85,7 +85,7 @@ end
 function Speciation(logaoxides, T_calc, P)
 
     # Read data into a dataframe
-    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/Matrix_500C_BackCalc_Fe_H2-O2.csv", DataFrame))
+    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/Matrix_BackCalc_Fe_H2-O2.csv", DataFrame))
     species = names(df)[2:end-1] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
@@ -118,11 +118,11 @@ function Speciation(logaoxides, T_calc, P)
     FeCl          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeCl+_dissociation_400C.csv", DataFrame))
     LogK_FeCl     = collect(FeCl[:,2])                 # Log K values for FeCl+ dissociation
     FeCl2         = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeCl2_dissociation_400C.csv", DataFrame))
-    LogK_FeCl2    = collect(FeCl2[:,2])                # Log K values for FeCl+ dissociation
+    LogK_FeCl2    = collect(FeCl2[:,2])                # Log K values for FeCl2 dissociation
     FeOH          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeOH+_dissociation_400C.csv", DataFrame))
-    LogK_FeOH     = collect(FeOH[:,2])                 # Log K values for MgOH dissociation
+    LogK_FeOH     = collect(FeOH[:,2])                 # Log K values for FeOH+ dissociation
     H2_H2O        = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/H2(aq)-H2O_dissociation_400C.csv", DataFrame))
-    LogK_H2_H2O   = collect(H2_H2O[:,2])               # Log K values for MgOH dissociation
+    LogK_H2_H2O   = collect(H2_H2O[:,2])               # Log K values for H2O dissociation
 
     # Arrays
     D = Float64.(Matrix(df[:, 2:end-1]))                       # Read coefficients and convert to Matrix
@@ -191,8 +191,6 @@ function Speciation(logaoxides, T_calc, P)
         # Compute water activity
         logaw = ActivityWater(m, bdot, å_w, I, Ω, T)
         aw = 10^logaw
-        # aw = 1
-        # logaw = 0
         @printf("Water activity = %1.4e\n", aw)
     end
 
@@ -229,14 +227,10 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
         @printf(" \n")
         print(out.SS_vec[j].emFrac)
         @printf(" \n")
-        # @print(out.SS_vec[j].siteFractionsNames)
-        # @print("The site fractions proportions are %s is stable with %2.2e\n", out.SS_vec[j].siteFractions)
     end
     for m in 1:length(Xoxides)
         @printf("The chemical potential of %s = %2.5e (kJ/mol)\n", out.oxides[m],out.Gamma[m])
     end
-    # print(out.SS_vec[6].siteFractionsNames)
-    # print(out.SS_vec[6].siteFractions)
 
     return out.Gamma[1], out.Gamma[4], out.Gamma[3], out.Gamma[6], out.Gamma[5]
 
@@ -275,15 +269,15 @@ G0_Mg_lt   = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTr
 G0_SiO2_lt = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_SiO2(aq)_400C.csv", DataFrame))
 G0_Fe_lt   = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_Fe2+_400C.csv", DataFrame))
 G0_O2_lt   = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_O2_400C.csv", DataFrame))
-P_var      = collect(G0_Mg_lt[:,1])                          # P values for lookup tables of Gibbs free energies for Mg2+ and SiO2(aq)
+P_var      = collect(G0_Mg_lt[:,1])                          # P values for lookup tables of Gibbs free energies from PerpleX
 G0_Mg      = collect(G0_Mg_lt[:,2])                          # Gibbs free energies for Mg2+ at different pressures (1 to 25 kbar)
 G0_SiO2    = collect(G0_SiO2_lt[:,2])                        # Gibbs free energies for SiO2(aq) at different pressures (1 to 25 kbar)
-G0_Fe      = collect(G0_Fe_lt[:,2])                          # Gibbs free energies for Mg2+ at different pressures (1 to 25 kbar)
+G0_Fe      = collect(G0_Fe_lt[:,2])                          # Gibbs free energies for Fe2+ at different pressures (1 to 25 kbar)
 G0_O2      = collect(G0_O2_lt[:,2])                          # Gibbs free energies for O2(g) at different pressures (1 to 25 kbar)
 G_Mg⁰      = Itp1D_rev_scalar1(P_var, G0_Mg, 1000*P)         # G0 for Mg2+ at the pressure of interest
 G_SiO₂⁰    = Itp1D_rev_scalar1(P_var, G0_SiO2, 1000*P)       # G0 for SiO2(aq) at the pressure of interest
-G_Fe⁰      = Itp1D_rev_scalar1(P_var, G0_Fe, 1000*P)         # G0 for Mg2+ at the pressure of interest
-G_O₂⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for Mg2+ at the pressure of interest
+G_Fe⁰      = Itp1D_rev_scalar1(P_var, G0_Fe, 1000*P)         # G0 for Fe2+ at the pressure of interest
+G_O₂⁰      = Itp1D_rev_scalar1(P_var, G0_O2, 1000*P)         # G0 for O2(g) at the pressure of interest
 @printf("Gibbs free energy of Mg2+ = %2.5e, SiO2(aq) = %2.5e, Fe2+ = %2.5e and O2(g) = %2.5e\n", G_Mg⁰, G_SiO₂⁰, G_Mg⁰, G_O₂⁰)
 
 # µ_SiO₂ = -968.919674    # SiO2 chemical potential (kJ/mol) from PerpleX with HSC convention
