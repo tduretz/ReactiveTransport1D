@@ -82,7 +82,7 @@ end
 # Solve for log(activities)
 
 """ Main function for speciation """
-function Speciation(logaoxides, T_calc, P)
+function Speciation(logaoxides, T_calc, P, pathData)
 
     # Read data into a dataframe
     df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/Matrix_BackCalc_Fe_H2-O2.csv", DataFrame))
@@ -106,22 +106,22 @@ function Speciation(logaoxides, T_calc, P)
     iter = 0                                       # Iteration count
 
     # Log Ks lookup tables at variable pressure and 400 °C
-    MgCl          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MgCl+_dissociation_400C.csv", DataFrame))
+    MgCl          = (CSV.read(pathData * "/MgCl+_dissociation_400C.csv", DataFrame))
     P_logK        = collect(MgCl[:,1])                 # Pressure vector for lookup tables of log K values
     LogK_MgCl     = collect(MgCl[:,2])                 # Log K values for MgCl+ dissociation
-    HCl           = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/HCl_dissociation_400C.csv", DataFrame))
+    HCl           = (CSV.read(pathData * "/HCl_dissociation_400C.csv", DataFrame))
     LogK_HCl      = collect(HCl[:,2])                  # Log K values for HCl dissociation
-    H2O           = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/H2O_dissociation_400C.csv", DataFrame))
+    H2O           = (CSV.read(pathData * "/H2O_dissociation_400C.csv", DataFrame))
     LogK_H2O      = collect(H2O[:,2])                  # Log K values for H2O dissociation
-    MgOH          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/MgOH+_dissociation_400C.csv", DataFrame))
+    MgOH          = (CSV.read(pathData * "/MgOH+_dissociation_400C.csv", DataFrame))
     LogK_MgOH     = collect(MgOH[:,2])                 # Log K values for MgOH dissociation
-    FeCl          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeCl+_dissociation_400C.csv", DataFrame))
+    FeCl          = (CSV.read(pathData * "/FeCl+_dissociation_400C.csv", DataFrame))
     LogK_FeCl     = collect(FeCl[:,2])                 # Log K values for FeCl+ dissociation
-    FeCl2         = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeCl2_dissociation_400C.csv", DataFrame))
+    FeCl2         = (CSV.read(pathData * "/FeCl2_dissociation_400C.csv", DataFrame))
     LogK_FeCl2    = collect(FeCl2[:,2])                # Log K values for FeCl2 dissociation
-    FeOH          = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/FeOH+_dissociation_400C.csv", DataFrame))
+    FeOH          = (CSV.read(pathData * "/FeOH+_dissociation_400C.csv", DataFrame))
     LogK_FeOH     = collect(FeOH[:,2])                 # Log K values for FeOH+ dissociation
-    H2_H2O        = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/H2(aq)-H2O_dissociation_400C.csv", DataFrame))
+    H2_H2O        = (CSV.read(pathData * "/H2(aq)-H2O_dissociation_400C.csv", DataFrame))
     LogK_H2_H2O   = collect(H2_H2O[:,2])               # Log K values for H2O dissociation
 
     # Arrays
@@ -129,27 +129,26 @@ function Speciation(logaoxides, T_calc, P)
     z = collect(df[1, 2:end-1])                                # Charges for the fluid species
     coeffH2O = collect(df[1:end, end])
     b = 0.01 * ones(length(coeffH2O))
-    b[3] = logaoxides[1]
-    b[4] = logaoxides[2]
-    b[5] = logaoxides[3]
-    b[6] = logaoxides[4]
-    b[7] = Itp1D_rev_scalar1(P_logK, LogK_MgCl, 1000*P)        # Interpolate log Ks for MgCl+ dissociation constant
-    b[8] = Itp1D_rev_scalar1(P_logK, LogK_HCl, 1000*P)         # Interpolate log Ks for HCl dissociation constant
-    b[9] = Itp1D_rev_scalar1(P_logK, LogK_H2O, 1000*P)         # Interpolate log Ks for H2O dissociation constant
+    b[3]  = logaoxides[1]
+    b[4]  = logaoxides[2]
+    b[5]  = logaoxides[3]
+    b[6]  = logaoxides[4]
+    b[7]  = Itp1D_rev_scalar1(P_logK, LogK_MgCl, 1000*P)       # Interpolate log Ks for MgCl+ dissociation constant
+    b[8]  = Itp1D_rev_scalar1(P_logK, LogK_HCl, 1000*P)        # Interpolate log Ks for HCl dissociation constant
+    b[9]  = Itp1D_rev_scalar1(P_logK, LogK_H2O, 1000*P)        # Interpolate log Ks for H2O dissociation constant
     b[10] = Itp1D_rev_scalar1(P_logK, LogK_MgOH, 1000*P)       # Interpolate log Ks for MgOH+ dissociation constant
     b[11] = Itp1D_rev_scalar1(P_logK, LogK_FeCl2, 1000*P)      # Interpolate log Ks for MgOH+ dissociation constant
     b[12] = Itp1D_rev_scalar1(P_logK, LogK_FeCl, 1000*P)       # Interpolate log Ks for MgOH+ dissociation constant
     b[13] = Itp1D_rev_scalar1(P_logK, LogK_FeOH, 1000*P)       # Interpolate log Ks for MgOH+ dissociation constant
     b[14] = Itp1D_rev_scalar1(P_logK, LogK_H2_H2O, 1000*P)     # Interpolate log Ks for MgOH+ dissociation constant
-    å = 3.7 * ones(length(b))                      # Size of fluid species (including hydration shell)
-    # b    = [0.0; Clᵗᵒᵗ; 6.8466; -1.0841; -0.6078; -8.1764; 6.6296; 4.9398]  
+    å = 3.7 * ones(length(b))                                  # Size of fluid species (including hydration shell)
     n = length(species)
-    m = 0.01 * ones(length(b))                               # Initial condition
-    m[6] = 10^(b[9]/2)                                       # Initial condition for H+ to be half of Ke
-    m[7] = 10^(b[9]/2)                                       # Initial condition for OH- to be half of Ke
-    m[14] = 10^(b[6])                                       # Initial condition for O2 to be 10^(log fO2)
-    # m = [0.02; 0.01; 0.01; 0.1; 0.0005; 0.0008; 0.3; 0.01; 0.01]
-    logγ = ones(length(b))                                   # Initial activity coefficients equal to 1
+    m = 0.01 * ones(length(b))                                 # Initial condition
+    m[6] = 10^(b[9]/2)                                         # Initial condition for H+ to be half of Ke
+    m[7] = 10^(b[9]/2)                                         # Initial condition for OH- to be half of Ke
+    m[9] = 10^(b[4])                                           # Initial condition for SiO2(aq) to be equal to BackCalc output
+    m[14] = 10^(b[6])                                          # Initial condition for O2 to be 10^(log fO2)
+    logγ = ones(length(b))                                     # Initial activity coefficients equal to 1
     f = zero(m)
     Δm = zero(m)
     J = zeros(n, n)
@@ -221,13 +220,6 @@ function GetChemicalPotentials(X, Xoxides, data, T_calc, P, sys_in)
     for n in 1:length(out.ph)
         @printf("%s is stable with %1.3f vol\n", out.ph[n],out.ph_frac_vol[n])
     end
-    for j in 1:length(out.sol_name)-1
-        @printf("%s is stable with %1.3f vol\n", out.sol_name[j],out.ph_frac_vol[j])
-        print(out.SS_vec[j].emNames)
-        @printf(" \n")
-        print(out.SS_vec[j].emFrac)
-        @printf(" \n")
-    end
     for m in 1:length(Xoxides)
         @printf("The chemical potential of %s = %2.5e (kJ/mol)\n", out.oxides[m],out.Gamma[m])
     end
@@ -265,10 +257,11 @@ R          = 8.314               # Gas constant (J/mol/K)
 # G_SiO₂⁰ = -851437.5     # Gibbs free energy (J/mol) of SiO2(aq) at P and T from PerpleX
 
 # Interpolate Gibbs free energy (J/mol) of Mg2+ and SiO2(aq) at P and T from PerpleX lookup table
-G0_Mg_lt   = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_Mg2+_400C.csv", DataFrame))
-G0_SiO2_lt = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_SiO2(aq)_400C.csv", DataFrame))
-G0_Fe_lt   = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_Fe2+_400C.csv", DataFrame))
-G0_O2_lt   = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/G0_O2_400C.csv", DataFrame))
+pathData = "/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data"
+G0_Mg_lt   = (CSV.read(pathData * "/G0_Mg2+_400C.csv", DataFrame))
+G0_SiO2_lt = (CSV.read(pathData * "/G0_SiO2(aq)_400C.csv", DataFrame))
+G0_Fe_lt   = (CSV.read(pathData * "/G0_Fe2+_400C.csv", DataFrame))
+G0_O2_lt   = (CSV.read(pathData * "/G0_O2_400C.csv", DataFrame))
 P_var      = collect(G0_Mg_lt[:,1])                          # P values for lookup tables of Gibbs free energies from PerpleX
 G0_Mg      = collect(G0_Mg_lt[:,2])                          # Gibbs free energies for Mg2+ at different pressures (1 to 25 kbar)
 G0_SiO2    = collect(G0_SiO2_lt[:,2])                        # Gibbs free energies for SiO2(aq) at different pressures (1 to 25 kbar)
@@ -308,5 +301,5 @@ logO₂ = (2*(1000*µ_O + S0_O*298.15) - G_O₂⁰) / (2.303 * R * (T_calc+273.1
 logaoxides = [logMgH; logSiO₂H; logFeH; logO₂]
 
 # Compute the speciation using the log(aMg2+/aH+) from MAGEMin
-Speciation(logaoxides, T_calc, P)
+Speciation(logaoxides, T_calc, P, pathData)
 
