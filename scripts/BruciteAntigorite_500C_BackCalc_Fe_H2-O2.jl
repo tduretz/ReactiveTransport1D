@@ -85,7 +85,7 @@ end
 function Speciation(logaoxides, T_calc, P)
 
     # Read data into a dataframe
-    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/Matrix_500C_BackCalc_Fe_H2-O2.csv", DataFrame))
+    df = (CSV.read("/Users/guillaumesiron/Documents/Julia_scripts/ReactiveTransport1D/data/Matrix_BackCalc_Fe_H2-O2.csv", DataFrame))
     species = names(df)[2:end-1] # Read column labels
 
     # Thermodynamic parameters for activity coefficients
